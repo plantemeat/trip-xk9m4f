@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>新西兰南岛旅行计划 🇳🇿</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", sans-serif;
+      background: linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 50%, #fef9ee 100%);
+      min-height: 100vh;
+      padding: 32px 16px;
+      color: #1e293b;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    /* ── 封面 ── */
+    .hero {
+      background: linear-gradient(135deg, #0369a1 0%, #0891b2 40%, #059669 100%);
+      border-radius: 24px;
+      padding: 48px 40px;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Ccircle cx='50' cy='50' r='40' fill='none' stroke='rgba(255,255,255,0.06)' stroke-width='80'/%3E%3C/svg%3E") center/400px;
+    }
+    .hero-flag { font-size: 52px; margin-bottom: 12px; }
+    .hero h1 { font-size: 36px; font-weight: 800; letter-spacing: 2px; margin-bottom: 8px; }
+    .hero p { font-size: 16px; opacity: 0.85; }
+    .hero-dates {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 100px;
+      padding: 6px 18px;
+      font-size: 14px;
+      margin-top: 16px;
+    }
+
+    /* ── 亮点卡片 ── */
+    .highlights {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .hl-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 20px 16px;
+      text-align: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      transition: transform .2s;
+    }
+    .hl-card:hover { transform: translateY(-3px); }
+    .hl-card .icon { font-size: 30px; margin-bottom: 8px; }
+    .hl-card .label { font-size: 13px; font-weight: 600; color: #334155; }
+
+    /* ── 行程卡 ── */
+    .timeline { display: flex; flex-direction: column; gap: 20px; margin-bottom: 32px; }
+
+    .day-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+      overflow: hidden;
+      display: flex;
+    }
+    .day-stripe {
+      width: 8px;
+      flex-shrink: 0;
+    }
+    .day-body { padding: 22px 24px; flex: 1; }
+
+    .day-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .day-badge {
+      background: #0369a1;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+    .day-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .day-content {
+      font-size: 14px;
+      color: #475569;
+      line-height: 1.8;
+    }
+    .day-content .tag {
+      display: inline-block;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #15803d;
+      border-radius: 6px;
+      padding: 1px 8px;
+      font-size: 12px;
+      margin: 2px 2px;
+    }
+    .day-content .tag-blue {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+      color: #1d4ed8;
+    }
+    .day-content .tag-amber {
+      background: #fffbeb;
+      border-color: #fde68a;
+      color: #b45309;
+    }
+    .star-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #fef3c7;
+      border: 1px solid #fcd34d;
+      color: #92400e;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 100px;
+      margin-left: 8px;
+    }
+
+    /* ── 色条对应 ── */
+    .stripe-blue   { background: #0891b2; }
+    .stripe-green  { background: #059669; }
+    .stripe-indigo { background: #4f46e5; }
+    .stripe-teal   { background: #0d9488; }
+    .stripe-star   { background: linear-gradient(#f59e0b, #ef4444); }
+    .stripe-sky    { background: #0369a1; }
+
+    /* ── 必玩 / 可选 ── */
+    .section-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .must-grid, .opt-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+    .must-item, .opt-item {
+      background: #fff;
+      border-radius: 14px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    }
+    .must-item .dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: #0891b2;
+      flex-shrink: 0;
+    }
+    .must-item span, .opt-item span { font-size: 14px; font-weight: 500; color: #334155; }
+    .opt-item .emoji { font-size: 20px; }
+
+    /* ── 备注 ── */
+    .notes {
+      background: #fefce8;
+      border: 1px solid #fde68a;
+      border-radius: 16px;
+      padding: 20px 24px;
+      font-size: 14px;
+      color: #713f12;
+      line-height: 1.8;
+    }
+    .notes strong { color: #92400e; }
+
+    /* ── 车程标注 ── */
+    .drive-info {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 2px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #475569;
+      margin: 3px 2px;
+    }
+    .drive-info::before { content: "🚗"; font-size: 12px; }
+
+    footer {
+      text-align: center;
+      color: #94a3b8;
+      font-size: 13px;
+      margin-top: 32px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- 封面 -->
+  <div class="hero">
+    <div class="hero-flag">🇳🇿</div>
+    <h1>新西兰南岛旅行</h1>
+    <p>皇后镇 · 箭镇 · 瓦纳卡 · 库克山 · 特卡波 · 基督城</p>
+    <div class="hero-dates">📅 4月29日 — 5月4日 &nbsp;｜&nbsp; 共 6 天</div>
+  </div>
+
+  <!-- 亮点数字 -->
+  <div class="highlights">
+    <div class="hl-card"><div class="icon">🏔️</div><div class="label">库克山徒步</div></div>
+    <div class="hl-card"><div class="icon">🌌</div><div class="label">特卡波星空</div></div>
+    <div class="hl-card"><div class="icon">🌊</div><div class="label">最美湖泊</div></div>
+    <div class="hl-card"><div class="icon">🍷</div><div class="label">酒庄品酒</div></div>
+    <div class="hl-card"><div class="icon">🛷</div><div class="label">Luge 滑车</div></div>
+    <div class="hl-card"><div class="icon">🌳</div><div class="label">瓦纳卡孤独树</div></div>
+  </div>
+
+  <!-- 行程 -->
+  <div class="section-title">🗓️ 每日行程</div>
+  <div class="timeline">
+
+    <!-- Day 1 -->
+    <div class="day-card">
+      <div class="day-stripe stripe-blue"></div>
+      <div class="day-body">
+        <div class="day-header">
+          <div class="day-badge">4月29日</div>
+          <div class="day-title">皇后镇 · 跳伞</div>
+        </div>
+        <div class="day-content">
+          抵达皇后镇，下午挑战 <span class="tag tag-blue">🪂 跳伞</span>——从高空俯瞰皇后镇与瓦卡蒂普湖，震撼无比！
+          <br/><em style="color:#94a3b8;font-size:12px;">建议提前在线预约，确认好集合时间与接送安排。</em>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 2 -->
+    <div class="day-card">
+      <div class="day-stripe stripe-green"></div>
+      <div class="day-body">
+        <div class="day-header">
+          <div class="day-badge">4月30日</div>
+          <div class="day-title">Luge · 箭镇 · 酒庄 → 瓦纳卡</div>
+        </div>
+        <div class="day-content">
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;">
+              <span style="background:#dbeafe;color:#1d4ed8;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;white-space:nowrap;margin-top:1px;">上午</span>
+              <span>乘坐 <span class="tag tag-blue">Skyline 缆车</span> 上山，畅玩 <span class="tag tag-blue">Luge 滑车</span> 🛷 老少皆宜，可以反复玩！</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start;">
+              <span style="background:#fef9c3;color:#854d0e;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;white-space:nowrap;margin-top:1px;">中午</span>
+              <span>取车 🚗，用餐休整。</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start;">
+              <span style="background:#dcfce7;color:#15803d;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;white-space:nowrap;margin-top:1px;">约 14:00</span>
+              <span>
+                出发前往箭镇，
+                <span class="drive-info">皇后镇 → 箭镇 约 20 分钟</span>
+                漫步 <span class="tag">Arrowtown 箭镇</span>（淘金小镇，超有历史感）。
+                随后前往
+                <span class="drive-info">箭镇 → Gibbston Valley 约 15 分钟</span>
+                <span class="tag">Gibbston Valley 酒庄</span> 品酒 🍷。
+              </span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start;">
+              <span style="background:#f3e8ff;color:#7e22ce;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;white-space:nowrap;margin-top:1px;">晚上</span>
+              <span>
+                <span class="drive-info">皇后镇 → 瓦纳卡 约 1.5 小时</span>
+                抵达瓦纳卡入住。<span class="tag tag-amber">🏨 晚住 Wanaka</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 3 -->
+    <div class="day-card">
+      <div class="day-stripe stripe-indigo"></div>
+      <div class="day-body">
+        <div class="day-header">
+          <div class="day-badge">5月1日</div>
+          <div class="day-title">瓦纳卡 · 孤独树 &amp; 湖边</div>
+        </div>
+        <div class="day-content">
+          早上前往 <span class="tag tag-blue">The Wanaka Tree 孤独树</span>（距市区约 5 分钟），
+          拍摄标志性湖中枯树美景。湖边漫步，感受宁静壮阔的自然风光 🌅。
+          <br/>可选前往
+          <span class="drive-info">市区 → Rippon 酒庄 约 10 分钟</span>
+          <span class="tag">Rippon 酒庄</span> 湖景品酒。
+          <br/><span class="tag tag-amber">🏨 晚住 Wanaka</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 4 -->
+    <div class="day-card">
+      <div class="day-stripe stripe-teal"></div>
+      <div class="day-body">
+        <div class="day-header">
+          <div class="day-badge">5月2日</div>
+          <div class="day-title">特卡波 · 温泉 &amp; 星空</div>
+        </div>
+        <div class="day-content">
+          早上出发，
+          <span class="drive-info">瓦纳卡 → 特卡波 约 3 小时</span>
+          途中 <span class="tag tag-blue">必停 Lake Pukaki</span>——
+          传说中的「最美湖」，湖水呈醉人的蓝绿色 💙
+          <em style="color:#94a3b8;font-size:12px;">（停留约 30 分钟）</em>。
+          <br/>下午入住后体验 <span class="tag">Tekapo Springs 温泉</span> ♨️。
+          傍晚参观 <span class="tag">好牧羊人教堂</span>
+          <em style="color:#94a3b8;font-size:12px;">（温泉 → 教堂 步行约 10 分钟）</em>。
+          晚上迎来重头戏：<strong>世界级暗夜保护区的璀璨星空</strong> 🌠
+          <br/><span class="tag tag-amber">🏨 晚住 Tekapo</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 5 ⭐⭐ -->
+    <div class="day-card">
+      <div class="day-stripe stripe-star"></div>
+      <div class="day-body">
+        <div class="day-header">
+          <div class="day-badge">5月3日</div>
+          <div class="day-title">库克山 · 徒步 &amp; 冰川
+            <span class="star-badge">⭐⭐ 最重要</span>
+          </div>
+        </div>
+        <div class="day-content">
+          今日为全程最高光时刻！
+          <span class="drive-info">特卡波 → 库克山村 约 1.5 小时</span>
+          <br/>上午走 <span class="tag tag-blue">Hooker Valley Track 胡克步道</span>（约 3 小时往返），
+          穿越吊桥、冰碛湖，近距离仰望库克山雄姿 🏔️。
+          <br/>下午前往观赏 <span class="tag tag-blue">Tasman Glacier 塔斯曼冰川</span>（约 1 小时）
+          <em style="color:#94a3b8;font-size:12px;">（步道入口 → 冰川观景台 约 10 分钟车程）</em>。
+          <br/>可选体验：<span class="tag">🚁 直升机冰川游览</span>（震撼 ++）
+          <br/><span class="drive-info">库克山村 → 特卡波 约 1.5 小时</span>
+          <span class="tag tag-amber">🏨 晚住 Tekapo</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 6 -->
+    <div class="day-card">
+      <div class="day-stripe stripe-sky"></div>
+      <div class="day-body">
+        <div class="day-header">
+          <div class="day-badge">5月4日</div>
+          <div class="day-title">基督城 · 返程</div>
+        </div>
+        <div class="day-content">
+          早上出发，
+          <span class="drive-info">特卡波 → 基督城 约 3 小时</span>
+          抵达基督城 🏙️。
+          可选游览 <span class="tag">雅芳河</span>、<span class="tag">City Walk 市区漫步</span>。
+          按各自航班时间安排返程。
+          <br/><em style="color:#94a3b8;">（5号早 6:00 起飞 → 奥克兰过夜）</em>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 必玩项目 -->
+  <div class="section-title">⭐ 必玩项目</div>
+  <div class="must-grid">
+    <div class="must-item"><div class="dot"></div><span>Skyline 缆车 + Luge 滑车</span></div>
+    <div class="must-item"><div class="dot"></div><span>Wanaka 湖 + 孤独树</span></div>
+    <div class="must-item"><div class="dot"></div><span>Lake Pukaki（最美湖）</span></div>
+    <div class="must-item"><div class="dot"></div><span>Hooker Valley Track 经典徒步</span></div>
+    <div class="must-item"><div class="dot"></div><span>Tekapo 星空（世界级暗夜区）</span></div>
+  </div>
+
+  <!-- 可选项目 -->
+  <div class="section-title">✨ 可选项目</div>
+  <div class="opt-grid">
+    <div class="opt-item"><span class="emoji">🚁</span><span>冰川直升机游览（最震撼体验）</span></div>
+    <div class="opt-item"><span class="emoji">🚤</span><span>Shotover Jet 喷射快艇</span></div>
+    <div class="opt-item"><span class="emoji">♨️</span><span>Tekapo / Onsen 温泉</span></div>
+    <div class="opt-item"><span class="emoji">🍷</span><span>酒庄品酒（Gibbston / Rippon）</span></div>
+    <div class="opt-item"><span class="emoji">🪂</span><span>跳伞（安排在 4/29）</span></div>
+  </div>
+
+  <!-- 备注 -->
+  <div class="notes">
+    📌 <strong>住宿备注：</strong>
+    5月2日（湖区入住）、5月4日（离开）；5月5日早上 6 点起飞，建议 5月4日晚住奥克兰机场附近。
+    <br/>🚗 <strong>自驾提示：</strong>全程自驾路线，请提前在新西兰完成取车手续，准备好国际驾照。
+    <br/>🌡️ <strong>天气：</strong>5月为新西兰秋末，南岛气温较低，库克山地区需备厚外套及防水装备。
+  </div>
+
+  <footer>
+    <p>祝旅途愉快 🌿 &nbsp;·&nbsp; Enjoy New Zealand 🇳🇿</p>
+  </footer>
+
+</div>
+</body>
+</html>
